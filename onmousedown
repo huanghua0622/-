@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>onmousedown</title>
+    <style>
+        div{
+            width: 60px;
+            height:60px;
+            border-radius: 30px;
+            background: green;
+        }
+    </style>
+</head>
+<body>
+<div id = "ball"></div>
+<script>
+    ball.onmousedown = function(event)
+    {
+        ball.style.backgroundColor = "red";
+        var bx = this.offsetLeft;
+        var by = this.offsetTop;
+        var mx = event.clientX;
+        var my = event.clientY;
+        //为什么用document而不用ball
+        document.onmousemove = function(event){
+            var event = window.event || event;
+            var dx = event.clientX - mx;
+            var dy = event.clientY - my;
+            ball.style.position = "absolute";
+            ball.style.left = bx + dx + "px";
+            ball.style.top = by + dy + "px";
+        }
+    };
+    ball.onmouseup = function (){
+       document.onmousemove = null;
+       ball.style.backgroundColor = null;
+    }
+</script>
+</body>
+</html>
