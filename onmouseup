@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>onkeyup</title>
+</head>
+<body>
+    <p>手机号：<input type="text" name="phone" value="" onkeyup="chk(this)"></p>
+    <script>
+        function chk(dom)
+        {
+            if(!dom.value.match(/^\d+$/)){
+                dom.value = dom.defaultValue;
+            }else{
+                dom.defaultValue = dom.value;
+            }
+        }
+    </script>
+</body>
+</html>
