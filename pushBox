@@ -1,0 +1,50 @@
+<html>
+	<head>
+		<title>推箱子</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<style>
+			div {
+				background:#ccc;
+				width : 100px;
+				height : 100px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box" style="position:absolute;left:0;top:0"></div>
+		<script>
+			//当用户在页面(document)中键入↑↓←→按键时 触发的事件 也就是给document对象绑定键盘事件
+			document.onkeyup = function (event) {
+//				alert("你正在按键");
+				//当按键为上下左右时 才触发执行动作 通过event对象的keyCode来区分按键
+				var event = window.event || event;
+				//获取箱子 原有的水平和垂直坐标值
+				var box = document.getElementById("box");
+				bx = parseInt(box.style.left);		//124px => 124
+				by = parseInt(box.style.top);		//80px	=> 80
+				//判断键盘值 执行相应的处理
+				switch (event.keyCode) {
+					//case中的值是严格匹配 如果值的类型 不一样 就无法执行
+					case 37 :		//向左按键 向左运动 水平坐标要递减
+						bx -= 5;
+						console.log(bx);
+						break;
+					case 38 :		//向上按键	垂直坐标值 递减
+						by -= 5;
+						break;
+					case 39 :		//向右按键	水平坐标值 递增
+						bx += 5;
+						break;
+					case 40 :		//向下按键	垂直坐标值 递增
+						by += 5;
+						break;
+				}
+				console.log(bx,by);
+				//移动到新坐标位置
+				box.style.left = bx + "px";
+				box.style.top = by + "px";
+			}
+		</script>
+	</body>
+</html>
