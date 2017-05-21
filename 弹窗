@@ -1,0 +1,91 @@
+<html>
+	<head>
+		<title>弹框</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	</head>
+	<body>
+		<input type="button" name="btn" value="开始" onclick="bounce.start();"/>
+		<input type="button" name="btn" value="暂停" flag="N" onclick="bounce.pause(this)"/>
+		<input type="button" name="btn" value="结束" onclick="bounce.stop()"/>
+
+		<script>
+		
+			function Bounce(w, h, dx, dy, perFrame)
+			{
+		
+				this.width = w || 200;
+				this.height = h || 200;
+			
+				this.dx = dx || 50;
+				this.dy = dy || 30
+				
+				this.left = (screen.availWidth - this.width) / 2;
+				this.top = (screen.availHeight - this.height) / 2;
+
+				this.perFrame = perFrame || 100;
+				this.win = null;
+				this.timer = null;
+			}
+
+
+			Bounce.prototype.start = function () {
+
+		
+				this.win = this.win || window.open("http://localhost", "", "width=" + this.width + ",height=" + this.height + ",left=" + this.left + ",top=" + this.top);
+				
+				this.timer = setInterval(this.nextFrame.bind(this), this.perFrame);
+			};
+
+			Bounce.prototype.pause = function (obj) {
+			
+				this.win.focus();
+				if (obj.getAttribute("flag") == "N") {
+			
+					obj.value = "继续";
+				
+					clearInterval(this.timer);
+					obj.setAttribute("flag", "Y");
+				} else if (obj.getAttribute("flag") == "Y") {
+				
+					obj.value = "暂停";
+				
+					this.start();
+					obj.setAttribute("flag", "N");
+				}
+			};
+
+		
+			Bounce.prototype.nextFrame = function () {
+				console.log(this);
+			
+				this.left += this.dx;
+				this.top += this.dy;
+			
+				if (this.left < 0 || this.left + this.width > screen.availWidth) {
+					this.dx = -this.dx;
+				}
+				if (this.top < 0 || this.top + this.height > screen.availHeight) {
+					this.dy = -this.dy;
+				}
+
+		
+				this.win.document.open();
+				this.win.document.write(this.left, ",", this.top);
+				this.win.document.close();
+		
+				this.win.moveTo(this.left, this.top);
+			};
+
+			Bounce.prototype.stop = function () {
+			
+				this.win.close();
+			
+				clearInterval(this.timer);
+			};
+
+			var bounce = new Bounce;
+
+		</script>
+	</body>
+</html>
