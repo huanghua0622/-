@@ -1,0 +1,107 @@
+
+<!DOCTYPE html>
+<!--
+@Licensed http://www.apache.org/licenses/LICENSE-2.0
+@Author lautin<liutian@itcast.cn>
+@Created on : 2017-5-26, 11:18:15
+-->
+<html>
+	<head>
+		<title>全选与反选</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<script src="jquery-2.0.2.min.js"></script>
+	</head>
+	<body>
+		<h4>用户列表</h4>
+		<table border="1" width="1000" align="center" id="tab" cellspacing="0" cellpadding="5">
+			<tr>
+				<th>#</th>
+				<th>姓名</th>
+				<th>性别</th>
+				<th>年龄</th>
+				<th>生日</th>
+			</tr>
+			<tr>
+				<td><input type="checkbox" name="opts[]" value="4" /> 4</td>
+				<td>张三</td>
+				<td>男</td>
+				<td>28</td>
+				<td>1988-12-20</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" name="opts[]" value="1" /> 1</td>
+				<td>张三</td>
+				<td>男</td>
+				<td>28</td>
+				<td>1988-12-20</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" name="opts[]" value="2" /> 2</td>
+				<td>张三</td>
+				<td>男</td>
+				<td>28</td>
+				<td>1988-12-20</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" name="opts[]" value="3" /> 3</td>
+				<td>张三</td>
+				<td>男</td>
+				<td>28</td>
+				<td>1988-12-20</td>
+			</tr>
+			<tr>
+				<td colspan="5">
+					<input type="button" name="btn" value="全选" />
+					<input type="button" name="btn" value="取消" />
+					<input type="button" name="btn" value="反选" />
+				</td>
+			</tr>
+		</table>
+		
+		<script>
+//			$(function () {
+//				//设置全选的动作 jq选中 的是dom集合 那么有点击事件
+//				$("input:button[value*=全选]").click(function () {
+//					//设置所有的checkbox的checked属性为true　就是全部选中
+//					$("input:checkbox").attr("checked", true);
+//				});
+//				
+//				$("input:button[value*=取消]").click(function () {
+//					$("input:checkbox").attr("checked", false);
+//				});
+//				
+//				$("input:button[value*=反选]").click(function () {
+//					for (var i = 0; i < $("input:checkbox").length; i++) {
+//						var jsdom = $("input:checkbox").get(i);
+//						if (jsdom.checked)		jsdom.checked = false;
+//						else jsdom.checked = true;
+//					}
+//				});
+//			});
+			
+			//使用js 实现全选
+			document.getElementsByName("btn")[0].onclick = function () {
+				var opts = document.getElementsByName("opts[]");
+				for (var i = 0; i < opts.length; i++) {
+					opts[i].checked = true;
+				}
+			};
+			//取消全选
+			document.getElementsByName("btn")[1].onclick = function () {
+				var opts = document.getElementsByName("opts[]");
+				for (var i = 0; i < opts.length; i++) {
+					opts[i].checked = false;
+				}
+			};
+			//反选
+			document.getElementsByName("btn")[2].onclick = function () {
+				var opts = document.getElementsByName("opts[]");
+				for (var i = 0; i < opts.length; i++) {
+					if (opts[i].checked)	opts[i].checked = false;
+					else	opts[i].checked = true;
+				}
+			};
+		</script>
+	</body>
+</html>
