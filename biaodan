@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表单验证</title>
+</head>
+<body>
+    <form action="action" name="login" method="post">
+        <p>账号:<input type="text" name="uname" value=""/></p>
+        <p>密码:<input type="password" name="password" value=""/></p>
+        <input type="submit" value="登录">
+        <span id = "preview"></span>
+    </form>
+    <script>
+        document.login.onsubmit = function(){
+            //请求未初始化前的操作
+            var uname =this.uname.value;
+            var password = this.password.value;
+            //创建ajax请求服务器 验证用户登录信息
+            var xhr = new XMLHttpRequest;
+//            xhr.onloadstart = function(){
+//              document.getElementById("preview").innerHTML = "请求建立:"+this.readyState;
+//            };
+//            //定义请求在服务器处理使得事件程序
+//            xhr.onprogress = function(){
+//              document.getElementById("preview").innerHTML = "请求处理中:" +this.readyState;
+//            };
+//            //定义请求完成时的动作
+//            xhr.onprogress = function(){
+//                document.getElementById("preview").innerHTML = "请求完成:" +this.readyState+"结果为:"+this.responseText;
+//            };
+            //定义请求状态改变时的事件处理程序
+            xhr.onreadystatechange = function(){
+                if(this.readyState === this.DONE && this.statusText === "OK"){
+                    document.getElementById("preview").innerHTML = this.responseText;
+                }else{
+                    document.getElementById("preview").innerHTML = "<img src='timg.gif' width='30'/>";
+                }
+            };
+            //和服务器建立连接
+            xhr.open("get","2.php?uname="+uname+"&password="+password,true);
+            //发送请求数据 就是账号和密码信息 用于服务器验证
+            xhr.send(null);
+            //使用ajax登录验证 页面无跳转 阻止表单的提交
+            return false;
+
+        };
+    </script>
+</body>
+</html>
