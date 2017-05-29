@@ -1,0 +1,58 @@
+<html>
+	<head>
+		<title>each遍历</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<script src="jquery-2.0.2.min.js"></script>
+	</head>
+	<body>
+		<ul>
+			<li>张三</li>
+			<li>李四</li>
+			<li>王二</li>
+		</ul>
+
+		<script>
+			$(function () {
+				//定义数组
+				var arr = ["赤", "橙", "黄", "绿", "青", "蓝", "紫"];
+				//遍历数组
+				$.each(arr, function (idx, ele) {
+					console.log(idx, ele);
+				});
+				//遍历对象
+				var o = {
+					name : "张三",
+					sex : "男",
+					age : 23,
+				};
+				$.each(o, function (key, val) {
+					console.log(key, val);
+				});
+				
+				//使用选择器对象的each方法
+				$("ul li").each(function (idx, ele) {
+					//这里 循环时的ele是每个js dom对象
+//					console.log(idx, ele);
+					//定义帽子
+					var hats = ["赤", "橙", "黄", "绿", "青", "蓝", "紫"];
+					//设置每个li的内容 首先使用$将 ele 封装成jq dom 
+					//然后使用html方法来设置内容  传入匿名函数 获取之前的内容 去追加
+					$(ele).html(function (idx, val) {
+						var clr = hats[Math.floor(Math.random()*hats.length)];
+						return val + "带上了" + clr + "色的帽子";
+					});
+				});
+				
+				//遍历时 函数体内的this
+				$("ul li").each (function () {
+					//查看函数体内的this 通常的理解是不作为方法的函数 体内this为window
+					//而此处是js dom对象 这说明 你所定义的函数 最终被js dom对象调用并且修改了this指向
+					//如果需要使用jq dom 则使用$封装
+					console.log(this);
+					console.log($(this));
+				});
+			});
+		</script>
+	</body>
+</html>
