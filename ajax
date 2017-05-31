@@ -1,0 +1,53 @@
+<html>
+	<head>
+		<title>使用ajax获取返回的xml结构数据</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	</head>
+	<body>
+		<form name="login">
+			<p>账号：<input type="text" name="uname" value="" /></p>
+			<p>密码：<input type="password" name="password" value="" /></p>
+			<input type="submit"  value="登录" />
+		</form>
+		<script>
+			//绑定表单提交事件 执行登录验证 使用ajax完成
+			document.login.onsubmit = function () {
+				//初始化 请求前获取用户输入信息
+				var uname = this.uname.value;
+				var password = this.password.value;
+				/**
+				 * 发送ajax请求到 服务器 完成真实性验证
+				 */
+				//创建请求对象
+				var xhr = new XMLHttpRequest;
+				//注册请求完成时的回调函数 先定义 后使用
+				xhr.onloadend = function () {
+					//获取返回结果 要求 能够判断是否成功 、具体的提示信息
+//					alert(this.responseXML);	//object XMLDocument 类似于html中document对象
+					//查询xml字段的值
+					var xmlDoc = this.responseXML;
+					var status = xmlDoc.getElementsByTagName("status").item(0).innerHTML;
+					var info = xmlDoc.getElementsByTagName("info").item(0).innerHTML;
+					//如果成功 则跳转到主页
+					//如果失败 则输出提示
+					if (status == "true") {
+						alert(info);
+						location.href = 'http://www.itcast.cn';
+					} else {
+						alert(info);
+					}
+				};
+				//发送请求：建立连接 + 发送数据
+				xhr.open("post", "4.php", true);
+				//设置请求头中的编码类型值
+				xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+				//发送数据
+				xhr.send("uname=" + encodeURIComponent(uname) + "&password=" + encodeURIComponent(password));
+				
+				//阻止表单提交
+				return false;
+			};
+		</script>
+	</body>
+</html>
