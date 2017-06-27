@@ -1,0 +1,58 @@
+<?php
+class MySessionHandler implements SessionHandlerInterface
+{
+    private $db;
+
+    public function open($savePath, $sessionName)
+    {
+        $conn = mysqli_connect('127.0.0.1', 'root', '123456', 'test');
+        mysqli_query($conn, 'set names utf8');
+        
+        $this->db = $conn;
+        return true;
+    }
+
+    public function close()
+    {
+        return true;
+    }
+
+    public function read($id)
+    {
+        $sql = "select session_data from session where session_id='{$id}'";
+        $result = mysqli_query($this->db, $sql);
+        
+        while( $row = mysqli_fetch_assoc($result)){
+            return $row['session_data'];
+        }
+        return '';
+    }
+
+    public function write($id, $data)
+    {
+        $time = time();
+        $sql = "replace into session values ('{$id}', '{$data}', {$time})";
+        mysqli_query($this->db, $sql);
+        return true;
+    }
+
+    public function destroy($id)
+    {
+        $sql = "delete from session where session_id='{$id}'";
+        mysqli_query($this->db, $sql);
+        return true;
+    }
+
+    public function gc($maxlifetime)
+    {
+        $time = time();
+        $end_time = $time - $maxlifetime;
+        $sql = "delete from session where session_time < $end_time";
+        mysqli_query($this->db,  $sql);
+        return true;
+    }
+}
+
+$handler = new MySessionHandler();
+session_set_save_handler($handler, true);
+session_start();
